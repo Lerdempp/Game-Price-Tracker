@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import GameList from './components/GameList';
-import GameDetail from './components/GameDetail';
-import Navbar from './components/navbar';
-import './App.css';
+import GameList from './components/game-list/GameList.jsx';
+import GameDetail from './components/game-detail/GameDetail.jsx';
+import Navbar from './components/navbar/navbar.jsx';
+import './components/styles/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
