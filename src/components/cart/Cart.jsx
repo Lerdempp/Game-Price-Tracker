@@ -2,7 +2,12 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Cart = ({ cart }) => {
+const Cart = ({ cart, setCart }) => {
+  const removeFromCart = (gameIndex) => {
+    const updatedCart = cart.filter((_, index) => index !== gameIndex);
+    setCart(updatedCart);
+  };
+
   return (
     <div className="container mt-5">
       <h2>Cart</h2>
@@ -17,7 +22,7 @@ const Cart = ({ cart }) => {
                 <Card.Body>
                   <Card.Title>{game.name}</Card.Title>
                   <Card.Text>Price: {game.price}</Card.Text>
-                  <Button variant="danger">Remove</Button>
+                  <Button variant="danger" onClick={() => removeFromCart(index)}>Remove</Button>
                 </Card.Body>
               </Card>
             </div>
