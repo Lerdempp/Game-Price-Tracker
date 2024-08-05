@@ -46,11 +46,11 @@ const GameDetail = ({ games, addToCart }) => {
         <div className="card-body text-center">
           <h5 className="card-title">{game.name}</h5>
           <p className="card-text">{game.price}</p>
-          <button className="btn btn-success" onClick={handlePurchase}>Satın Al</button>
+          <button className="btn btn-success" onClick={handlePurchase}>Buy</button>
         </div>
       </div>
       <div className="w-100">
-        <h3 className="text-center mb-4">Oyun İstatistikleri</h3>
+        <h3 className="text-center mb-4">Game Stats</h3>
         <div className="card p-3 mb-4" style={{ width: '750px', height: '400px', margin: '0 auto' }}>
           <Line data={data} options={options} />
         </div>
