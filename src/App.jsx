@@ -41,8 +41,17 @@ function App() {
   }, [cart]);
 
   const addToCart = (game) => {
-    const updatedCart = [...cart, game];
-    setCart(updatedCart);
+    const existingGameIndex = cart.findIndex(item => item.id === game.id);
+
+    if (existingGameIndex !== -1) {
+      const updatedCart = cart.map((item, index) =>
+        index === existingGameIndex ? { ...item, quantity: item.quantity + 1 } : item
+      );
+      setCart(updatedCart);
+    } else {
+      const updatedCart = [...cart, { ...game, quantity: 1 }];
+      setCart(updatedCart);
+    }
   };
 
   return (
