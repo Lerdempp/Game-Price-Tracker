@@ -23,31 +23,28 @@ function App() {
           'January': '$10', 
           'February': '$12', 
           'March': '$11',
-       
         } 
       },
       { 
-        id: 4,
-         name: 'Red Dead Redemption 2', 
-         price: '$40', 
-         imageUrl: 'https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg' ,
+        id: 4, 
+        name: 'Red Dead Redemption 2', 
+        price: '$40', 
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg',
         monthlyPrices: { 
           'January': '$10', 
           'February': '$12', 
           'March': '$11',
-       
         } 
       },
       { 
         id: 5, 
         name: 'The Witcher 3', 
         price: '$25', 
-        imageUrl: 'https://upload.wikimedia.org/wikipedia/en/0/0c/Witcher_3_cover_art.jpg' ,
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/en/0/0c/Witcher_3_cover_art.jpg',
         monthlyPrices: { 
           'January': '$10', 
           'February': '$12', 
           'March': '$11',
-       
         } 
       },
       { 
@@ -59,31 +56,30 @@ function App() {
           'January': '$20', 
           'February': '$22', 
           'March': '$21',
-          
         }
       },
       { 
         id: 6, 
-    name: 'Cyberpunk 2077', 
-    price: '$35', 
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/en/9/9f/Cyberpunk_2077_box_art.jpg',
-    monthlyPrices: { 
-      'January': '$35', 
-      'February': '$37', 
-      'March': '$36'
-    } 
-  },
+        name: 'Cyberpunk 2077', 
+        price: '$35', 
+        imageUrl: 'https://upload.wikimedia.org/wikipedia/en/9/9f/Cyberpunk_2077_box_art.jpg',
+        monthlyPrices: { 
+          'January': '$35', 
+          'February': '$37', 
+          'March': '$36'
+        } 
+      },
       { 
-      id: 7, 
-      name: 'Far Cry 5', 
-      price: '$30', 
-      imageUrl: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT1_OqEPnfTddDS_i4p5FBrv3YOiO5mkoqbyCkz_aJdGLZKMCagtbClkpehILFU1l8P1D-cIg',
-      monthlyPrices: { 
-       'January': '$30', 
-       'February': '$32', 
-       'March': '$31'
-    } 
-  },
+        id: 7, 
+        name: 'Far Cry 5', 
+        price: '$30', 
+        imageUrl: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcT1_OqEPnfTddDS_i4p5FBrv3YOiO5mkoqbyCkz_aJdGLZKMCagtbClkpehILFU1l8P1D-cIg',
+        monthlyPrices: { 
+          'January': '$30', 
+          'February': '$32', 
+          'March': '$31'
+        } 
+      },
       { 
         id: 3, 
         name: 'GTA VICE CITY', 
@@ -93,19 +89,18 @@ function App() {
           'January': '$30', 
           'February': '$32', 
           'March': '$31',
-          
         }
       },
       { 
         id: 8, 
-    name: 'Assassin’s Creed Valhalla', 
-    price: '$45', 
-    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo3TU14-X97X5wo1MBXugUxcaHkqzb5hbIXZVbArP1pX4wqXYUDvvzS7D-OG8mxJqH4e3U2A',
-    monthlyPrices: { 
-      'January': '$45', 
-      'February': '$47', 
-      'March': '$46'
-    } 
+        name: 'Assassin’s Creed Valhalla', 
+        price: '$45', 
+        imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQo3TU14-X97X5wo1MBXugUxcaHkqzb5hbIXZVbArP1pX4wqXYUDvvzS7D-OG8mxJqH4e3U2A',
+        monthlyPrices: { 
+          'January': '$45', 
+          'February': '$47', 
+          'March': '$46'
+        } 
       },
       { 
         id: 9, 
@@ -116,15 +111,25 @@ function App() {
           'January': '$25', 
           'February': '$30', 
           'March': '$20',
-          
         }
       }
     ];
     setGames(sampleGames);
   }, []);
 
+  useEffect(() => {
+    const storedCart = localStorage.getItem('cart');
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
   const addToCart = (game) => {
-    setCart([...cart, game])
+    setCart([...cart, game]);
   };
 
   return (
@@ -143,4 +148,5 @@ function App() {
     </Router>
   );
 }
+
 export default App;
