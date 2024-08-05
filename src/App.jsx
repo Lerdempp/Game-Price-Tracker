@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import GameList from './components/game-list/GameList.jsx';
-import GameDetail from './components/game-detail/GameDetail.jsx';
-import Navbar from './components/navbar/navbar.jsx';
+import GameList from './components/game-list/GameList';
+import GameDetail from './components/game-detail/GameDetail';
+import Navbar from './components/navbar/navbar';
 import Footer from './components/footer/footer';
+import Cart from './components/cart/Cart';
 import './components/styles/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [games, setGames] = useState([]);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const sampleGames = [
@@ -121,19 +123,19 @@ function App() {
     setGames(sampleGames);
   }, []);
 
+  const addToCart = (game) => {
+    setCart([...cart, game])
+  };
+
   return (
     <Router>
       <div className="App">
-        <Navbar />
+        <Navbar cart={cart} />
         <div className="container mt-5">
           <Routes>
-            <Route path="/" element={(
-              <>
-                <h1 className="my-4"></h1>
-                <GameList games={games} />
-              </>
-            )} />
-            <Route path="/game/:id" element={<GameDetail games={games} />} />
+            <Route path="/" element={<GameList games={games} />} />
+            <Route path="/game/:id" element={<GameDetail games={games} addToCart={addToCart} />} />
+            <Route path="/cart" element={<Cart cart={cart} />} />
           </Routes>
         </div>
         <Footer />
@@ -141,5 +143,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;
