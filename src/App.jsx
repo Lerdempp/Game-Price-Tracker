@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import GameList from './components/game-list/GameList.jsx';
 import GameDetail from './components/game-detail/GameDetail.jsx';
 import Navbar from './components/navbar/navbar.jsx';
+import Footer from './components/footer/footer';
 import './components/styles/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -135,6 +136,7 @@ function App() {
             <Route path="/game/:id" element={<GameDetail games={games} />} />
           </Routes>
         </div>
+        <Footer />
       </div>
     </Router>
   );
