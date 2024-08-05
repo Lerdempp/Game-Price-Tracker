@@ -1,12 +1,12 @@
-import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import React from 'react';
+import './footer.css';
 
-const footer = () => {
+const Footer = () => {
   return (
-    <footer className='bg-dark text-white mt-4 p-4 text-center'>
-      &copy; {new Date().getFullYear()} Lerdempp. Thats it.
+    <footer className="footer">
+      <p>© 2024 Lerdempp. Thats it.</p>
     </footer>
-  )
-}
+  );
+};
 
-export default footer
+export default Footer;
