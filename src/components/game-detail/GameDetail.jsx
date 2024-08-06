@@ -1,25 +1,43 @@
-import React from 'react';
-import "./GameDetail.css";
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { getGameDetails } from '../../services/apiService';
+import './GameDetail.css';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const GameDetail = ({ games, addToCart }) => {
-  const { id } = useParams();
-  const game = games.find(g => g.id === parseInt(id));
+const GameDetail = ({ addToCart }) => {
+  const { id } = useParams(); 
+  const [game, setGame] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchGameDetails = async () => {
+      console.log("Fetching game details for dealID:", id); 
+      const gameDetails = await getGameDetails(id);
+      console.log("Game Details State:", gameDetails); 
+      setGame(gameDetails);
+      setLoading(false);
+    };
+
+    fetchGameDetails();
+  }, [id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!game) {
     return <div>Game not found</div>;
   }
 
   const data = {
-    labels: Object.keys(game.monthlyPrices),
+    labels: Object.keys(game.info?.monthlyPrices || {}),
     datasets: [
       {
         label: 'Price in USD',
-        data: Object.values(game.monthlyPrices).map(price => parseFloat(price.replace('$', ''))),
+        data: Object.values(game.info?.monthlyPrices || {}).map(price => parseFloat(price.replace('$', ''))),
         fill: false,
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
@@ -42,10 +60,10 @@ const GameDetail = ({ games, addToCart }) => {
   return (
     <div className="container mt-5 d-flex flex-column align-items-center">
       <div className="card mb-4">
-        <img src={game.imageUrl} className="card-img-top" alt={game.name} style={{ objectFit: 'scale-down', height: '300px' }} />
+        <img src={game.info?.thumb} className="card-img-top" alt={game.info?.title} style={{ objectFit: 'scale-down', height: '300px' }} />
         <div className="card-body text-center">
-          <h5 className="card-title">{game.name}</h5>
-          <p className="card-text">{game.price}</p>
+          <h5 className="card-title">{game.info?.title}</h5>
+          <p className="card-text">{game.salePrice}</p>
           <button className="btn btn-success" onClick={handlePurchase}>Buy</button>
         </div>
       </div>
