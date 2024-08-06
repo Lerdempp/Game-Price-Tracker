@@ -1,6 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+const GameList = ({games, addToCart}) => {
+  if (!games || games.length === 0) {
+    return <div>No games available</div>
+  }
+}
+
 const GameList = ({ games }) => {
   return (
     <div className="row">
