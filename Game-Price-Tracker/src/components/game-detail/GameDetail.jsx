@@ -8,15 +8,15 @@ import './GameDetail.css';
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const GameDetail = ({ addToCart }) => {
-  const { id } = useParams(); // `id` burada dealID olacak
+  const { id } = useParams(); 
   const [game, setGame] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchGameDetails = async () => {
-      console.log("Fetching game details for dealID:", id); // Kullanılan dealID'yi konsola yazdırın
+      console.log("Fetching game details for dealID:", id); 
       const gameDetails = await getGameDetails(id);
-      console.log("Game Details State:", gameDetails); // API'den dönen veriyi konsola yazdırın
+      console.log("Game Details State:", gameDetails); 
       setGame(gameDetails);
       setLoading(false);
     };
