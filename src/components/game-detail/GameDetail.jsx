@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import { getGameDetails } from '../../services/apiService';
 import './GameDetail.css';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-
 const GameDetail = ({ addToCart }) => {
-  const { id } = useParams(); // `id` burada dealID olacak
+  const { id } = useParams(); 
   const [game, setGame] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchGameDetails = async () => {
-      console.log("Fetching game details for dealID:", id); // Kullanılan dealID'yi konsola yazdırın
-      const gameDetails = await getGameDetails(id);
-      console.log("Game Details State:", gameDetails); // API'den dönen veriyi konsola yazdırın
-      setGame(gameDetails);
-      setLoading(false);
+      try {
+        const response = await fetch(`https://www.cheapshark.com/api/1.0/deals?id=${id}`);
+        const gameDetails = await response.json();
+        console.log("Game Details State:", gameDetails);
+        setGame(gameDetails);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching game details:", error);
+      }
     };
 
     fetchGameDetails();
@@ -32,69 +31,50 @@ const GameDetail = ({ addToCart }) => {
     return <div>Game not found</div>;
   }
 
-  const data = {
-    labels: Object.keys(game.info?.monthlyPrices || {}),
-    datasets: [
-      {
-        label: 'Price in USD',
-        data: Object.values(game.info?.monthlyPrices || {}).map(price => parseFloat(price.replace('$', ''))),
-        fill: false,
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: 'rgba(75,192,192,1)',
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  };
-
   const handlePurchase = () => {
     addToCart(game);
   };
 
+  if (!game.gameInfo) {
+    return <div>Error: Game information is not available.</div>;
+  }
+  
+
   return (
     <div className="container mt-5 d-flex flex-column align-items-center">
       <div className="card mb-4">
-        <img src={game.info?.thumb} className="card-img-top" alt={game.info?.title} style={{ objectFit: 'scale-down', height: '300px' }} />
+        <img src={game.gameInfo.thumb} className="card-img-top" alt={game.gameInfo.name} style={{ objectFit: 'contain', height: '300px' }} />
         <div className="card-body text-center">
-          <h5 className="card-title">{game.info?.title}</h5>
-          <p className="card-text">{game.salePrice}</p>
+          <h5 className="card-title">{game.gameInfo.name}</h5>
+          <p className="card-text">Sale Price: ${game.gameInfo.salePrice}</p>
+          <p className="card-text">Retail Price: ${game.gameInfo.retailPrice}</p>
           <button className="btn btn-success" onClick={handlePurchase}>Buy</button>
         </div>
       </div>
       <div className="w-100">
-        <h3 className="text-center mb-4">Game Stats</h3>
-        <div className="card p-3 mb-4" style={{ width: '750px', height: '400px', margin: '0 auto' }}>
-          <Line data={data} options={options} />
-        </div>
         <div className="row">
           <div className="col-md-3 mb-3">
             <div className="card p-3 text-center">
-              <h5>0.5 Hours</h5>
-              <p>Average Playing Time</p>
+              <h5>Metacritic Score</h5>
+              <p>{game.gameInfo.metacriticScore || "N/A"}</p>
             </div>
           </div>
           <div className="col-md-3 mb-3">
             <div className="card p-3 text-center">
-              <h5>50 %</h5>
-              <p>Percentage of Completion</p>
+              <h5>Steam Rating</h5>
+              <p>{game.gameInfo.steamRatingPercent || "N/A"}</p>
             </div>
           </div>
           <div className="col-md-3 mb-3">
             <div className="card p-3 text-center">
-              <h5>350,000</h5>
-              <p>Total Player</p>
+              <h5>Total Ratings</h5>
+              <p>{game.gameInfo.steamRatingPercent || "N/A"}%</p>
             </div>
           </div>
           <div className="col-md-3 mb-3">
             <div className="card p-3 text-center">
-              <h5>5000</h5>
-              <p>Total Active Player</p>
+              <h5>Steam Works</h5>
+              <p>{game.gameInfo.steamworks || "N/A"}</p>
             </div>
           </div>
         </div>
