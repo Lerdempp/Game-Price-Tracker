@@ -31,17 +31,27 @@ function App() {
 
   const addToCart = (game) => {
     const existingGameIndex = cart.findIndex(item => item.dealID === game.dealID);
-
+  
+    const gameDetails = {
+      dealID: game.dealID, 
+      name: game.title,
+      price: game.salePrice,
+      imageUrl: game.thumb,
+      quantity: 1,
+    };
+  
     if (existingGameIndex !== -1) {
       const updatedCart = cart.map((item, index) =>
         index === existingGameIndex ? { ...item, quantity: item.quantity + 1 } : item
       );
       setCart(updatedCart);
     } else {
-      const updatedCart = [...cart, { ...game, quantity: 1 }];
+      const updatedCart = [...cart, gameDetails];
       setCart(updatedCart);
     }
   };
+  
+  
 
   return (
     <Router>

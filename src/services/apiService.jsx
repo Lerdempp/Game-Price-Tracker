@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const BASE_URL = 'https://www.cheapshark.com/api/1.0';
 
-// Oyun listesi alma fonksiyonu
+
 export const getGames = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/deals`);
@@ -14,7 +14,7 @@ export const getGames = async () => {
   }
 };
 
-// Belirli bir oyunun fiyat bilgilerini alma fonksiyonu
+
 export const getGameDetails = async (dealID) => {
   try {
     const response = await axios.get(`${BASE_URL}/deals`, {
