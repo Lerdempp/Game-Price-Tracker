@@ -1,20 +1,21 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Cart = ({ cart, setCart }) => {
   const removeFromCart = (gameId) => {
     const existingGame = cart.find(item => item.id === gameId);
 
-    if (existingGame.quantity === 1) {
-      const updatedCart = cart.filter(item => item.id !== gameId);
-      setCart(updatedCart);
-    } else {
-      const updatedCart = cart.map(item =>
-        item.id === gameId ? { ...item, quantity: item.quantity - 1 } : item
-      );
-      setCart(updatedCart);
+    if (existingGame) {
+      if (existingGame.quantity === 1) {
+        const updatedCart = cart.filter(item => item.id !== gameId);
+        setCart(updatedCart);
+      } else {
+        const updatedCart = cart.map(item =>
+          item.id === gameId ? { ...item, quantity: Math.max(item.quantity - 1, 0) } : item
+        ).filter(item => item.quantity > 0);
+        setCart(updatedCart);
+      }
     }
   };
 
