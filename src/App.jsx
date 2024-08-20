@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [games, setGames] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem('cart');
     return savedCart ? JSON.parse(savedCart) : [];
@@ -51,10 +52,14 @@ function App() {
     }
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(prevMode => !prevMode);
+  };
+
   return (
     <Router>
-      <div className="App">
-        <Navbar cart={cart} />
+      <div className={`App ${darkMode ? 'dark-mode' : 'light-mode'}`}>
+        <Navbar cart={cart} toggleDarkMode={toggleDarkMode} darkMode={darkMode} />
         <div className="container mt-5">
           <Routes>
             <Route path="/" element={<GameList addToCart={addToCart} games={games} />} />

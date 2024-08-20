@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Navbar = () => {
+const Navbar = ({ toggleDarkMode, darkMode }) => {
   const cart = useSelector((state) => state.cart.cart);
 
   return (
@@ -28,6 +28,11 @@ const Navbar = () => {
               <Link className="nav-link" to="/cart">
                 Cart ({cart.length})
               </Link>
+            </li>
+            <li className="nav-item">
+              <button className="btn btn-secondary ml-2" onClick={toggleDarkMode}>
+                {darkMode ? 'Light Mode' : 'Dark Mode'}
+              </button>
             </li>
           </ul>
         </div>
