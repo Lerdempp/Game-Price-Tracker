@@ -10,7 +10,7 @@ import './styles/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [games, setGames] = useState([]); // games değişkenini tanımlayın
+  const [games, setGames] = useState([]);
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem('cart');
     return savedCart ? JSON.parse(savedCart) : [];
@@ -50,8 +50,6 @@ function App() {
       setCart(updatedCart);
     }
   };
-  
-  
 
   return (
     <Router>
@@ -68,6 +66,5 @@ function App() {
       </div>
     </Router>
   );
-}
-
+}   
 export default App;

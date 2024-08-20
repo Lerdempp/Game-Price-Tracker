@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Navbar = ({ cart }) => {
+const Navbar = () => {
+  const cart = useSelector((state) => state.cart.cart);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div className="container-fluid">

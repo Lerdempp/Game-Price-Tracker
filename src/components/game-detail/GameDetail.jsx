@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../redux/cartSlice';
 import './GameDetail.css';
 
-const GameDetail = ({ addToCart }) => {
+const GameDetail = () => {
   const { id } = useParams(); 
   const [game, setGame] = useState(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchGameDetails = async () => {
@@ -32,13 +35,12 @@ const GameDetail = ({ addToCart }) => {
   }
 
   const handlePurchase = () => {
-    addToCart(game);
+    dispatch(addToCart(game.gameInfo)); // Redux ile sepete ekle
   };
 
   if (!game.gameInfo) {
     return <div>Error: Game information is not available.</div>;
   }
-  
 
   return (
     <div className="container mt-5 d-flex flex-column align-items-center">

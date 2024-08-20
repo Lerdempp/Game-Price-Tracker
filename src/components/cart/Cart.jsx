@@ -1,22 +1,16 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeFromCart } from '../../redux/cartSlice';
 
-const Cart = ({ cart, setCart }) => {
-  const removeFromCart = (gameId) => {
-    const existingGame = cart.find(item => item.id === gameId);
+const Cart = () => {
+  const cart = useSelector((state) => state.cart.cart);
+  console.log(cart);
+  const dispatch = useDispatch();
 
-    if (existingGame) {
-      if (existingGame.quantity === 1) {
-        const updatedCart = cart.filter(item => item.id !== gameId);
-        setCart(updatedCart);
-      } else {
-        const updatedCart = cart.map(item =>
-          item.id === gameId ? { ...item, quantity: Math.max(item.quantity - 1, 0) } : item
-        ).filter(item => item.quantity > 0);
-        setCart(updatedCart);
-      }
-    }
+  const handleRemove = (dealID) => {
+    dispatch(removeFromCart({ dealID }));
   };
 
   return (
@@ -27,14 +21,14 @@ const Cart = ({ cart, setCart }) => {
       ) : (
         <div className="row">
           {cart.map((game) => (
-            <div key={game.id} className="col-md-4">
+            <div key={game.dealID} className="col-md-4">
               <Card className="mb-4">
                 <Card.Img variant="top" className="img-fluid card-img-custom" src={game.imageUrl} style={{ objectFit: 'scale-down', height: '300px' }} />
                 <Card.Body>
                   <Card.Title>{game.name}</Card.Title>
                   <Card.Text>Price: {game.price}</Card.Text>
                   <Card.Text>Quantity: {game.quantity}</Card.Text>
-                  <Button variant="danger" onClick={() => removeFromCart(game.id)}>Remove</Button>
+                  <Button variant="danger" onClick={() => handleRemove(game.dealID)}>Remove</Button>
                 </Card.Body>
               </Card>
             </div>
