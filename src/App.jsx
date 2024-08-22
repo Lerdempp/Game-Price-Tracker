@@ -8,6 +8,7 @@ import GameDetail from './components/game-detail/GameDetail';
 import { getGames } from './services/apiService';
 import './styles/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Checkout from './components/checkout/Checkout';
 
 function App() {
   const [games, setGames] = useState([]);
@@ -65,6 +66,7 @@ function App() {
             <Route path="/" element={<GameList addToCart={addToCart} games={games} />} />
             <Route path="/game/:id" element={<GameDetail addToCart={addToCart} />} />
             <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
         </div>
         <Footer />
