@@ -7,7 +7,6 @@ const Checkout = () => {
     const navigate = useNavigate();
 
     const handleCheckout = () => {
-        console.log("Checkout button clicked");
         setShow(true);
     };
 
