@@ -12,6 +12,7 @@ import Checkout from './components/checkout/Checkout';
 
 function App() {
   const [games, setGames] = useState([]);
+  const [filteredGames, setFilteredGames] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
   const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem('cart');
@@ -22,6 +23,7 @@ function App() {
     const fetchGames = async () => {
       const gamesData = await getGames();
       setGames(gamesData);
+      setFilteredGames(gamesData);
     };
 
     fetchGames();
@@ -57,13 +59,24 @@ function App() {
     setDarkMode(prevMode => !prevMode);
   };
 
+  const handleSearch = (searchTerm) => {
+    if (searchTerm === '') {
+      setFilteredGames(games);
+    } else {
+      const filtered = games.filter(game =>
+        game.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredGames(filtered);
+    }
+  };
+
   return (
     <Router>
       <div className={`App ${darkMode ? 'dark-mode' : 'light-mode'}`}>
-        <Navbar cart={cart} toggleDarkMode={toggleDarkMode} darkMode={darkMode} />
+        <Navbar cart={cart} toggleDarkMode={toggleDarkMode} darkMode={darkMode} onSearch={handleSearch} />
         <div className="container mt-5">
           <Routes>
-            <Route path="/" element={<GameList addToCart={addToCart} games={games} />} />
+            <Route path="/" element={<GameList addToCart={addToCart} games={filteredGames} />} />
             <Route path="/game/:id" element={<GameDetail addToCart={addToCart} />} />
             <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
             <Route path="/checkout" element={<Checkout />} />
@@ -73,5 +86,6 @@ function App() {
       </div>
     </Router>
   );
-}   
+}
+
 export default App;

@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import SearchBar from '../searchbar/SearchBar';
 
-const Navbar = ({ toggleDarkMode, darkMode }) => {
-  const cart = useSelector((state) => state.cart.cart);
-
+const Navbar = ({ cart, toggleDarkMode, darkMode, onSearch }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div className="container-fluid">
@@ -28,6 +27,9 @@ const Navbar = ({ toggleDarkMode, darkMode }) => {
               <Link className="nav-link" to="/cart">
                 Cart ({cart.length})
               </Link>
+            </li>
+            <li className="nav-item">
+              <SearchBar onSearch={onSearch} />
             </li>
             <li className="nav-item">
               <button className="btn btn-secondary ml-2" onClick={toggleDarkMode}>
