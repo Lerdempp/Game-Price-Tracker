@@ -10,6 +10,7 @@ import './styles/App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Checkout from './components/checkout/Checkout';
 import SortDropdown from './components/sort-dropdown/sort-dropdown';
+import PriceFilter from './components/price-filter/PriceFilter';
 
 function App() {
   const [games, setGames] = useState([]);
@@ -81,12 +82,20 @@ function App() {
     setFilteredGames(sortedGames);
   };
 
+  const handleFilter = (minPrice, maxPrice) => {
+    const filtered = games.filter(game => 
+      parseFloat(game.salePrice) >= minPrice && parseFloat(game.salePrice) <= maxPrice
+    );
+    setFilteredGames(filtered)
+  }
+
   return (
     <Router>
       <div className={`App ${darkMode ? 'dark-mode' : 'light-mode'}`}>
         <Navbar cart={cart} toggleDarkMode={toggleDarkMode} darkMode={darkMode} onSearch={handleSearch} />
         <div className="container mt-5">
           <SortDropdown onSort={handleSort} /> 
+          <PriceFilter onFilter={handleFilter} />
           <Routes>
             <Route path="/" element={<GameList addToCart={addToCart} games={filteredGames} />} />
             <Route path="/game/:id" element={<GameDetail addToCart={addToCart} />} />
